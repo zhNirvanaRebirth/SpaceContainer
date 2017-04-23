@@ -29,7 +29,7 @@ public class ContainerView extends ViewGroup {
     private int mStanderSpeed = 2000;//标准速度，超过会触发滚动
     private int mFlingSpeed = 800;//滚动速度
     private int addCount;//计数增加页面次数
-    private int alreaadyAddCount;//计数已经增加页面次数
+    private int alreadyAddCount;//计数已经增加页面次数
     private int mTouchSlop;//认为是滑动的最小距离
     private boolean isSliding = false;//是否在滑动
     private float resistance = 1.8f;//滑动阻力
@@ -179,7 +179,7 @@ public class ContainerView extends ViewGroup {
     }
 
     private void scrollByState(float velocity) {
-        alreaadyAddCount = 0;
+        alreadyAddCount = 0;
         if (getScrollY() != mHeight) {
             switch (mState) {
                 case ToPre:
@@ -245,20 +245,20 @@ public class ContainerView extends ViewGroup {
     public void computeScroll() {
         if (mScroller.computeScrollOffset()) {
             if (mState == State.ToPre) {
-                scrollTo(mScroller.getCurrX(), mScroller.getCurrY() + mHeight * alreaadyAddCount);
+                scrollTo(mScroller.getCurrX(), mScroller.getCurrY() + mHeight * alreadyAddCount);
                 if (getScrollY() < (mHeight + 2) && addCount > 0) {
                     isAdding = true;
                     addPre();
-                    alreaadyAddCount++;
+                    alreadyAddCount++;
                     addCount--;
                 }
             } else if (mState == State.ToNext) {
-                scrollTo(mScroller.getCurrX(), mScroller.getCurrY() - mHeight * alreaadyAddCount);
+                scrollTo(mScroller.getCurrX(), mScroller.getCurrY() - mHeight * alreadyAddCount);
                 if (getScrollY() > (mHeight) && addCount > 0) {
                     isAdding = true;
                     addNext();
                     addCount--;
-                    alreaadyAddCount++;
+                    alreadyAddCount++;
                 }
             } else {
                 //mState == State.Normal状态
@@ -268,7 +268,7 @@ public class ContainerView extends ViewGroup {
         }
         //滑动结束时相关用于计数变量复位
         if (mScroller.isFinished()) {
-            alreaadyAddCount = 0;
+            alreadyAddCount = 0;
             addCount = 0;
         }
     }
@@ -299,7 +299,7 @@ public class ContainerView extends ViewGroup {
     private void recycleMove(int delta) {
         delta = delta % mHeight;
         delta = (int) (delta / resistance);
-        //TODO ??
+        //TODO ??  这里是move的增量，如果两次之间的增量很大，说明滑动很快，这里就需要在motionEvent.up里面做处理了
         if (Math.abs(delta) > mHeight / 4)
             return;
         scrollBy(0, delta);

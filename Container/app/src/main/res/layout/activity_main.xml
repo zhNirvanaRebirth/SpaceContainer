@@ -5,7 +5,8 @@
 
     <com.onektower.container.ContainerView
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:visibility="gone">
 
         <ImageView
             android:layout_width="wrap_content"
@@ -22,4 +23,12 @@
             android:layout_height="wrap_content"
             android:src="@drawable/back3" />
     </com.onektower.container.ContainerView>
+
+    <com.onektower.container.ContainerImitate
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+        <com.onektower.container.FillingImageView
+            android:layout_width="200dp"
+            android:layout_height="200dp" />
+    </com.onektower.container.ContainerImitate>
 </RelativeLayout>
